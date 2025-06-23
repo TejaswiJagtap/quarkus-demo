@@ -1,14 +1,15 @@
 package com.artcode.quarkus.category;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import org.hibernate.generator.annotations.UUIDGenerator;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,20 +25,20 @@ public class Category extends PanacheEntityBase {
 
 	@Id
 	@GeneratedValue
+	@UuidGenerator
 	@JdbcTypeCode(SqlTypes.VARCHAR)
-	@UUIDGenerator(style = UUIDGenerator.Style.AUTO)
-	private String id;
+	private UUID id;
 
 	private String name;
 
 	private boolean isDeleted;
 
-	public Category(String id) {
+	public Category(UUID id) {
 		super();
 		this.id = id;
 	}
 
-	public static Optional<Category> findActiveById(String id) {
-	    return find("id = ?1 and isDeleted = false", id).firstResultOptional();
+	public static Optional<Category> findActiveById(UUID id) {
+		return find("id = ?1 and isDeleted = false", id).firstResultOptional();
 	}
 }

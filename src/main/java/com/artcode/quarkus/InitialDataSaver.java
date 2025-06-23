@@ -31,7 +31,6 @@ public class InitialDataSaver {
             userRole.persist();
 
             User admin = new User();
-            admin.setId(UUID.randomUUID().toString());
             admin.setName("Admin");
             admin.setEmail("admin@gmail.com");
             admin.setPassword(BCrypt.hashpw("12345", BCrypt.gensalt()));

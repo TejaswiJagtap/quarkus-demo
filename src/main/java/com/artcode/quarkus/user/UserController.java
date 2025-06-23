@@ -40,7 +40,6 @@ public class UserController {
                            .build();
         }
         user = new User();
-        user.setId(UUID.randomUUID().toString());
         user.setName(userRequest.getName());
         user.setEmail(userRequest.getEmail());
         Roles userRole = Roles.find("name", "USER").firstResult();

@@ -1,11 +1,13 @@
 package com.artcode.quarkus.category;
 
+import java.util.UUID;
+
 import lombok.Data;
 
 @Data
 public class CategoryDto {
 
-	private String id;
+	private UUID id;
 
 	private String name;
 
@@ -13,7 +15,7 @@ public class CategoryDto {
 		super();
 	}
 
-	public CategoryDto(String id, String name) {
+	public CategoryDto(UUID id, String name) {
 		super();
 		this.id = id;
 		this.name = name;

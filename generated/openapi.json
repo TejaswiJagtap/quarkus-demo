@@ -6,7 +6,7 @@
         "type" : "object",
         "properties" : {
           "id" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/UUID"
           },
           "name" : {
             "type" : "string"
@@ -42,11 +42,16 @@
           }
         }
       },
+      "UUID" : {
+        "type" : "string",
+        "format" : "uuid",
+        "pattern" : "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}"
+      },
       "User" : {
         "type" : "object",
         "properties" : {
           "id" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/UUID"
           },
           "name" : {
             "type" : "string"
@@ -88,6 +93,63 @@
     }
   },
   "paths" : {
+    "/category" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Not Authorized"
+          },
+          "403" : {
+            "description" : "Not Allowed"
+          }
+        },
+        "summary" : "Get All Paginated",
+        "tags" : [ "Category Resource" ],
+        "security" : [ {
+          "SecurityScheme" : [ "ADMIN", "USER" ]
+        } ]
+      }
+    },
+    "/category/all" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          },
+          "401" : {
+            "description" : "Not Authorized"
+          },
+          "403" : {
+            "description" : "Not Allowed"
+          }
+        },
+        "summary" : "Get All",
+        "tags" : [ "Category Resource" ],
+        "security" : [ {
+          "SecurityScheme" : [ "ADMIN", "USER" ]
+        } ]
+      }
+    },
     "/category/save" : {
       "post" : {
         "requestBody" : {
@@ -128,7 +190,7 @@
           "in" : "path",
           "required" : true,
           "schema" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/UUID"
           }
         } ],
         "responses" : {

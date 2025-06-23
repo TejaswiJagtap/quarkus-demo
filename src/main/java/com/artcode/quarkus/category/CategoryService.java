@@ -1,7 +1,9 @@
 package com.artcode.quarkus.category;
 
+import java.util.List;
 import java.util.UUID;
 
+import io.quarkus.panache.common.Page;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.NotFoundException;
 
@@ -16,7 +18,6 @@ public class CategoryService {
 					.orElseThrow(() -> new NotFoundException("Category not found or deleted"));
 		} else {
 			category = new Category();
-			category.setId(UUID.randomUUID().toString());
 		}
 		category.setName(dto.getName());
 		category.setDeleted(false);
@@ -25,7 +26,7 @@ public class CategoryService {
 		return category;
 	}
 
-	public CategoryDto getById(String id) {
+	public CategoryDto getById(UUID id) {
 		CategoryDto dto;
 		Category category = Category.findActiveById(id)
 				.orElseThrow(() -> new NotFoundException("Category not found or deleted"));
@@ -35,4 +36,20 @@ public class CategoryService {
 		dto = new CategoryDto(id, category.getName());
 		return dto;
 	}
+	
+	public List<Category> getAll() {
+        return Category.list("isDeleted = false");
+    }
+
+    // Get paginated categories
+    public List<Category> getAllPaginated(int page, int size) {
+        return Category.find("isDeleted = false")
+                       .page(Page.of(page, size))
+                       .list();
+    }
+
+    // Optional: count total for pagination metadata
+    public long countActive() {
+        return Category.count("isDeleted = false");
+    }
 }

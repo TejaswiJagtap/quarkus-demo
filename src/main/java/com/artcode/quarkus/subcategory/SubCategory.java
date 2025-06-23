@@ -1,8 +1,15 @@
 package com.artcode.quarkus.subcategory;
 
+import java.util.UUID;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
+
 import com.artcode.quarkus.category.Category;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,7 +24,10 @@ import lombok.NoArgsConstructor;
 public class SubCategory {
 
 	@Id
-	private String id;
+	@GeneratedValue
+	@UuidGenerator
+	@JdbcTypeCode(SqlTypes.VARCHAR)
+	private UUID id;
 
 	private String name;
 
@@ -27,7 +37,7 @@ public class SubCategory {
 
 	private boolean isDeleted;
 
-	public SubCategory(String id) {
+	public SubCategory(UUID id) {
 		super();
 		this.id = id;
 	}
